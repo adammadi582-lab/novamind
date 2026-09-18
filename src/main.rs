@@ -3,6 +3,7 @@ use axum::{
     extract::{State, Path, ConnectInfo},
     Json, Router,
     http::StatusCode,
+    response::{Html, IntoResponse},
 };
 use serde::{Deserialize, Serialize};
 use std::sync::{Arc, Mutex};
@@ -14,6 +15,7 @@ use chrono::Utc;
 use tower_http::cors::CorsLayer;
 use tower_http::compression::CompressionLayer;
 use ring::signature::KeyPair;
+use std::fs;
 
 #[derive(Clone)]
 struct AppState {
@@ -303,6 +305,7 @@ async fn main() {
     });
 
     let app = Router::new()
+        .route("/", get(serve_index))
         .route("/chain", get(get_chain))
         .route("/chain/verify", get(verify_blockchain))
         .route("/stats", get(get_network_stats))
@@ -330,10 +333,16 @@ async fn main() {
         .layer(CompressionLayer::new())
         .with_state(state);
 
-    // تم التعديل هنا إلى 0.0.0.0 لفتح الاتصال أمام الشبكة الخارجية بالكامل
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8080").await.unwrap();
     println!("🚀 NovaMind Hybrid AI-Verification & P2P Node is running on http://0.0.0.0:8080");
     axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await.unwrap();
+}
+
+async fn serve_index() -> impl IntoResponse {
+    match fs::read_to_string("index.html") {
+        Ok(html_content) => Html(html_content).into_response(),
+        Err(_) => (StatusCode::NOT_FOUND, "index.html not found").into_response(),
+    }
 }
 
 async fn get_chain(State(state): State<AppState>) -> Json<Vec<Block>> {
