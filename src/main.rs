@@ -15,6 +15,7 @@ use chrono::Utc;
 use tower_http::cors::CorsLayer;
 use tower_http::compression::CompressionLayer;
 use std::fs;
+use ring::signature::KeyPair;
 
 #[derive(Clone)]
 struct AppState {
@@ -328,10 +329,9 @@ async fn main() {
         .route("/stake/claim", post(claim_staking_rewards))
         .route("/p2p/nodes", get(get_peer_nodes).post(register_peer_node))
         .route("/ui/overview", get(get_ui_overview))
-        // --- الإضافات الجديدة المدعومة بدون تأثير سلبي ---
-        .route("/explorer/blocks", get(get_explorer_blocks)) // سجل المعاملات العام
-        .route("/wallet/dashboard/:address", get(get_full_wallet_dashboard)) // لوحة تحكم المحفظة الشاملة
-        .route("/network/ticker", get(get_network_ticker)) // العداد الحي
+        .route("/explorer/blocks", get(get_explorer_blocks))
+        .route("/wallet/dashboard/:address", get(get_full_wallet_dashboard))
+        .route("/network/ticker", get(get_network_ticker))
         .layer(CorsLayer::permissive())
         .layer(CompressionLayer::new())
         .with_state(state);
@@ -851,9 +851,6 @@ async fn claim_staking_rewards(State(state): State<AppState>, Json(payload): Jso
     Json(serde_json::json!({"status": "success", "claimed_reward": 0.05}))
 }
 
-// --- دوال الإضافات الجديدة المصممة بعناية فائقة للحفاظ على الاستقرار والأداء ---
-
-// 1. سجل المعاملات العام (Explorer Blocks)
 async fn get_explorer_blocks(State(state): State<AppState>) -> Json<serde_json::Value> {
     let conn = state.db.lock().unwrap();
     let mut stmt = match conn.prepare("SELECT idx, timestamp, miner, worker_name, reward, hash FROM blocks ORDER BY idx DESC LIMIT 20") {
@@ -885,7 +882,6 @@ async fn get_explorer_blocks(State(state): State<AppState>) -> Json<serde_json::
     }))
 }
 
-// 2. لوحة تحكم المحفظة الشاملة (Wallet Dashboard)
 async fn get_full_wallet_dashboard(
     State(state): State<AppState>,
     Path(address): Path<String>,
@@ -905,7 +901,6 @@ async fn get_full_wallet_dashboard(
     }))
 }
 
-// 3. العداد الحي (Live Ticker)
 async fn get_network_ticker(State(state): State<AppState>) -> Json<serde_json::Value> {
     let conn = state.db.lock().unwrap();
     let supply = *state.global_supply.lock().unwrap();
