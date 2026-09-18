@@ -1,0 +1,11 @@
+C:\Users\kasse\OneDrive\Desktop\novamind\target\debug\deps\socket2-bdb7f11d0380f2f4.d: C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\lib.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sockaddr.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\socket.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sockref.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sys\windows.rs
+
+C:\Users\kasse\OneDrive\Desktop\novamind\target\debug\deps\libsocket2-bdb7f11d0380f2f4.rlib: C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\lib.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sockaddr.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\socket.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sockref.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sys\windows.rs
+
+C:\Users\kasse\OneDrive\Desktop\novamind\target\debug\deps\libsocket2-bdb7f11d0380f2f4.rmeta: C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\lib.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sockaddr.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\socket.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sockref.rs C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sys\windows.rs
+
+C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\lib.rs:
+C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sockaddr.rs:
+C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\socket.rs:
+C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sockref.rs:
+C:\Users\kasse\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\socket2-0.6.5\src\sys\windows.rs:

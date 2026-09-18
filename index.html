@@ -3,124 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaMind (NVD) - Ultra-Secure Global Network</title>
+    <title>NovaMind (NVD) - Eco-Friendly Blockchain</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 30px; width: 100%; max-width: 600px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        h1 { color: #58a6ff; text-align: center; font-size: 26px; margin-bottom: 5px; }
-        .subtitle { text-align: center; color: #8b949e; font-size: 12px; margin-bottom: 20px; }
-        .global-stats { background: #21262d; border-radius: 8px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 14px; border: 1px solid #30363d; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; color: #58a6ff; }
-        input, select { width: 100%; padding: 10px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: white; font-size: 14px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; transition: 0.25s; }
-        .btn-primary { background-color: #238636; color: white; }
-        .btn-primary:hover { background-color: #2ea043; }
-        .btn-secondary { background-color: #1f6feb; color: white; margin-top: 10px; }
-        .btn-secondary:hover { background-color: #388bfd; }
-        .status-box { margin-top: 15px; padding: 12px; background: #21262d; border-radius: 6px; font-size: 13px; border-left: 4px solid #58a6ff; word-break: break-all; }
-        .feed { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; height: 120px; overflow-y: auto; padding: 10px; font-family: monospace; font-size: 12px; color: #7ee787; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #090a0f; /* أسود ملكي فخم */
+            color: #e2e8f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #121824; /* رمادي فاحم متدرج */
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #1e293b;
+        }
+        h2 {
+            text-align: center;
+            color: #fbbf24; /* لون ذهبي بريميوم للمشروع */
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .card {
+            background: #0d111a;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #21262d;
+        }
+        .card h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #f1f5f9;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 8px;
+        }
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            background: #161b22;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus {
+            border-color: #fbbf24;
+        }
+        button {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #f0f6fc;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button:hover {
+            background: #30363d;
+            border-color: #8b949e;
+        }
+        .btn-gold { 
+            background: linear-gradient(135deg, #d97706, #b45309);
+            color: #ffffff;
+            border: none;
+        }
+        .btn-gold:hover { 
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #fbbf24;
+            background: #0d111a;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #21262d;
+            margin-bottom: 20px;
+        }
+        pre {
+            background: #05070b;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            overflow-x: auto;
+            color: #34d399; /* أخضر نيون هادئ للنتائج */
+            border: 1px solid #1a202c;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>NovaMind (NVD)</h1>
-    <div class="subtitle">Ultra-Secure Cryptographic Blockchain Ecosystem</div>
+    <h2>NovaMind (NVD) ⚡</h2>
+    <p class="subtitle">Secure Academic Proof-of-Work & Layer 2 Ecosystem</p>
 
-    <div class="global-stats">
-        <span>Global Supply: <strong id="global-supply" style="color: #7ee787;">50.00 NVD</strong></span>
-        <span>Security: <strong style="color: #58a6ff;">Ed25519 & SQLite Enforced</strong></span>
+    <div class="stats">
+        <span>🟢 Network: Online (Port 8080)</span>
+        <span>🛡️ Security: Ed25519 Active</span>
     </div>
 
-    <!-- نظام توليد المحفظة المشفرة الحقيقية -->
-    <div class="input-group">
-        <label>Cryptographic Wallet Management</label>
-        <button class="btn-primary" onclick="createWallet()">Create Secure Wallet (Ed25519)</button>
-    </div>
-    <div id="wallet-status" class="status-box" style="display:none;"></div>
-
-    <!-- نظام التعدين الموزع والمربوط بالسيرفر -->
-    <div class="input-group" style="margin-top: 20px;">
-        <label>Academic & Cryptographic Mining Engine</label>
-        <input type="text" id="miner-name" placeholder="Enter Your Miner Address / Name" style="margin-bottom: 10px;">
-        <button id="mining-btn" class="btn-primary" onclick="toggleMining()">Start Mining Node 🚀</button>
+    <!-- قسم المحفظة -->
+    <div class="card">
+        <h3>💼 Wallet Management</h3>
+        <button onclick="createWallet()">Generate New Wallet</button>
+        <div id="walletInfo" style="margin-top: 12px; font-size: 13px; word-break: break-all; color: #94a3b8;"></div>
     </div>
 
-    <div style="text-align: center; margin: 15px 0;">
-        <span style="font-size: 22px; font-weight: bold; color: #58a6ff;" id="balance-display">0.00 NVD</span>
+    <!-- قسم فحص الرصيد -->
+    <div class="card">
+        <h3>🔍 Check Balance & Wealth</h3>
+        <input type="text" id="walletAddress" placeholder="Enter Wallet Address (e.g., nvd_...)">
+        <button onclick="checkBalance()">Get Balance</button>
+        <pre id="balanceResult">Result will appear here...</pre>
     </div>
 
-    <label style="margin-top: 15px;">Live Blockchain & Cryptographic Feed:</label>
-    <div id="mining-feed" class="feed">System initialized. Connected to local Rust server backend...</div>
+    <!-- قسم التعدين الذكي -->
+    <div class="card">
+        <h3>⛏️ Smart Mine Block</h3>
+        <input type="text" id="minerName" placeholder="Miner Name / Address">
+        <input type="text" id="solutionSteps" placeholder="Solution Steps / Proof">
+        <input type="number" id="devicePower" placeholder="Device Power Share (e.g., 1.0)" value="1.0">
+        <button class="btn-gold" onclick="mineBlock()">Submit & Mine Block</button>
+        <pre id="mineResult">Mining output...</pre>
+    </div>
 </div>
 
 <script>
-    let isMining = false;
-    let miningInterval;
-    let myBalance = 0.0;
+    const API_URL = window.location.protocol + "//" + window.location.hostname + ":8080";
 
-    // دالة إنشاء محفظة مشفرة حقيقية من السيرفر
     async function createWallet() {
         try {
-            let response = await fetch('http://localhost:8080/wallet/create');
-            let data = await response.json();
-            
-            let statusBox = document.getElementById('wallet-status');
-            statusBox.style.display = 'block';
-            statusBox.innerHTML = `<strong>Wallet Created!</strong><br>Address: <code>${data.address}</code><br>Public Key: <code>${data.public_key}</code>`;
-            
-            // وضع العنوان تلقائياً في خانة المعدن
-            document.getElementById('miner-name').value = data.address;
-        } catch (error) {
-            alert('Make sure the Rust server is running on port 8080!');
+            const res = await axios.get(`${API_URL}/wallet/create`);
+            document.getElementById('walletInfo').innerHTML = `
+                <b style="color: #fbbf24;">Address:</b> ${res.data.address}<br>
+                <b style="color: #fbbf24;">Public Key:</b> ${res.data.public_key}
+            `;
+            document.getElementById('walletAddress').value = res.data.address;
+        } catch (err) {
+            alert("Error connecting to server!");
         }
     }
 
-    // دالة التعدين وإرسال الحلول للبلوكتشين والدیسك توب
-    function toggleMining() {
-        const minerName = document.getElementById('miner-name').value;
-        if (!minerName) {
-            alert('Please create or enter a wallet address first!');
+    async function checkBalance() {
+        const address = document.getElementById('walletAddress').value;
+        if (!address) {
+            alert("Please enter a wallet address!");
+            return;
+        }
+        try {
+            const res = await axios.get(`${API_URL}/wallet/balance/${address}`);
+            document.getElementById('balanceResult').innerText = JSON.stringify(res.data, null, 2);
+        } catch (err) {
+            document.getElementById('balanceResult').innerText = "Error fetching balance.";
+        }
+    }
+
+    async function mineBlock() {
+        const miner = document.getElementById('minerName').value;
+        const solution_steps = document.getElementById('solutionSteps').value;
+        const device_power_share = parseFloat(document.getElementById('devicePower').value);
+
+        if (!miner || !solution_steps) {
+            alert("Please fill in miner name and solution steps!");
             return;
         }
 
-        const btn = document.getElementById('mining-btn');
-        const feed = document.getElementById('mining-feed');
-
-        if (!isMining) {
-            isMining = true;
-            btn.innerText = 'Stop Mining';
-            btn.className = 'btn-secondary';
-            feed.innerHTML += `<br>[${new Date().toLocaleTimeString()}] Secure mining node started for: ${minerName}`;
-
-            miningInterval = setInterval(async () => {
-                let nonce = Math.floor(Math.random() * 1000000);
-                try {
-                    let response = await fetch('http://localhost:8080/mine', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ miner: minerName, nonce: nonce })
-                    });
-
-                    if (response.ok) {
-                        let block = await response.json();
-                        myBalance += block.reward;
-                        document.getElementById('balance-display').innerText = `${myBalance.toFixed(2)} NVD`;
-                        feed.innerHTML += `<br>[${new Date().toLocaleTimeString()}] Block #${block.index} Mined! Hash: ${block.hash.substring(0, 12)}...`;
-                        feed.scrollTop = feed.scrollHeight;
-                    }
-                } catch (e) {
-                    feed.innerHTML += `<br><span style="color: #f85149;">Connection error with server!</span>`;
-                }
-            }, 4000);
-        } else {
-            isMining = false;
-            btn.innerText = 'Start Mining Node 🚀';
-            btn.className = 'btn-primary';
-            clearInterval(miningInterval);
-            feed.innerHTML += `<br>[${new Date().toLocaleTimeString()}] Mining paused securely. State saved.`;
-            feed.scrollTop = feed.scrollHeight;
+        try {
+            const res = await axios.post(`${API_URL}/mine`, {
+                miner,
+                solution_steps,
+                device_power_share
+            });
+            document.getElementById('mineResult').innerText = JSON.stringify(res.data, null, 2);
+        } catch (err) {
+            document.getElementById('mineResult').innerText = "Mining failed.";
         }
     }
 </script>
