@@ -14,7 +14,6 @@ use rusqlite::{Connection, params};
 use chrono::Utc;
 use tower_http::cors::CorsLayer;
 use tower_http::compression::CompressionLayer;
-use ring::signature::KeyPair;
 use std::fs;
 
 #[derive(Clone)]
@@ -329,6 +328,10 @@ async fn main() {
         .route("/stake/claim", post(claim_staking_rewards))
         .route("/p2p/nodes", get(get_peer_nodes).post(register_peer_node))
         .route("/ui/overview", get(get_ui_overview))
+        // --- الإضافات الجديدة المدعومة بدون تأثير سلبي ---
+        .route("/explorer/blocks", get(get_explorer_blocks)) // سجل المعاملات العام
+        .route("/wallet/dashboard/:address", get(get_full_wallet_dashboard)) // لوحة تحكم المحفظة الشاملة
+        .route("/network/ticker", get(get_network_ticker)) // العداد الحي
         .layer(CorsLayer::permissive())
         .layer(CompressionLayer::new())
         .with_state(state);
@@ -846,4 +849,73 @@ async fn claim_staking_rewards(State(state): State<AppState>, Json(payload): Jso
     let current_time = Utc::now().timestamp();
     let _ = conn.execute("UPDATE stakes SET last_stake_time = ?1 WHERE address = ?2", params![current_time, payload.address]);
     Json(serde_json::json!({"status": "success", "claimed_reward": 0.05}))
+}
+
+// --- دوال الإضافات الجديدة المصممة بعناية فائقة للحفاظ على الاستقرار والأداء ---
+
+// 1. سجل المعاملات العام (Explorer Blocks)
+async fn get_explorer_blocks(State(state): State<AppState>) -> Json<serde_json::Value> {
+    let conn = state.db.lock().unwrap();
+    let mut stmt = match conn.prepare("SELECT idx, timestamp, miner, worker_name, reward, hash FROM blocks ORDER BY idx DESC LIMIT 20") {
+        Ok(s) => s,
+        Err(_) => return Json(serde_json::json!({"blocks": []})),
+    };
+
+    let blocks_iter = stmt.query_map([], |row| {
+        Ok(serde_json::json!({
+            "index": row.get::<_, u64>(0)?,
+            "timestamp": row.get::<_, i64>(1)?,
+            "miner": row.get::<_, String>(2)?,
+            "worker_name": row.get::<_, String>(3)?,
+            "reward": row.get::<_, f64>(4)?,
+            "hash": row.get::<_, String>(5)?
+        }))
+    });
+
+    let mut list = vec![];
+    if let Ok(iter) = blocks_iter {
+        for b in iter {
+            if let Ok(val) = b { list.push(val); }
+        }
+    }
+
+    Json(serde_json::json!({
+        "status": "success",
+        "recent_blocks": list
+    }))
+}
+
+// 2. لوحة تحكم المحفظة الشاملة (Wallet Dashboard)
+async fn get_full_wallet_dashboard(
+    State(state): State<AppState>,
+    Path(address): Path<String>,
+) -> Json<serde_json::Value> {
+    let conn = state.db.lock().unwrap();
+    let mined_balance: f64 = conn.query_row("SELECT COALESCE(SUM(reward), 0.0) FROM blocks WHERE miner = ?1", params![address], |row| row.get(0)).unwrap_or(0.0);
+    let staked_balance: f64 = conn.query_row("SELECT COALESCE(balance, 0.0) FROM stakes WHERE address = ?1", params![address], |row| row.get(0)).unwrap_or(0.0);
+    let total_blocks: i64 = conn.query_row("SELECT COUNT(*) FROM blocks WHERE miner = ?1", params![address], |row| row.get(0)).unwrap_or(0);
+
+    Json(serde_json::json!({
+        "address": address,
+        "mined_balance": mined_balance,
+        "staked_balance": staked_balance,
+        "total_balance": mined_balance + staked_balance,
+        "total_blocks_mined": total_blocks,
+        "dashboard_status": "Active"
+    }))
+}
+
+// 3. العداد الحي (Live Ticker)
+async fn get_network_ticker(State(state): State<AppState>) -> Json<serde_json::Value> {
+    let conn = state.db.lock().unwrap();
+    let supply = *state.global_supply.lock().unwrap();
+    let total_blocks: i64 = conn.query_row("SELECT COUNT(*) FROM blocks", [], |row| row.get(0)).unwrap_or(0);
+    let current_diff = *state.current_difficulty.lock().unwrap();
+
+    Json(serde_json::json!({
+        "live_blocks": total_blocks,
+        "circulating_supply": supply,
+        "difficulty": current_diff,
+        "server_time": Utc::now().timestamp()
+    }))
 }
